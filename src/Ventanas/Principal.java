@@ -13,22 +13,21 @@ import javax.swing.JTextField;
 
 public class Principal extends JFrame{
 
-	private GridBagConstraints gbc1;
-	
-	private JButton estaciones;
-	private JButton lineas;
-	private JButton boletos;
-	private Estaciones estacionesPantalla;
+	private GridBagConstraints gbcPrincipal;
 	
 	public Principal() {
-		this.gbc1 = new GridBagConstraints();
+		this.gbcPrincipal = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 	}
 	
-	public void armarVentana(App app) {
+	public void armarVentanaPrincipal(App app) {
+		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setBackground(Color.LIGHT_GRAY);
 		Estaciones estacionesPantalla = new Estaciones();
+		Lineas lineasPantalla = new Lineas();
 		
 		estacionesPantalla.armarBoton(app);
+		//lineasPantalla.armarBoton(app);
 		this.revalidate();
 		this.repaint();
 	}

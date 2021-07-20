@@ -1,6 +1,7 @@
 package Ventanas;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -8,28 +9,22 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Estaciones extends JFrame{
 
-	private JLabel id;
-	private JLabel nombre;
-	private JLabel apertura;
-	private JLabel cierre;
-	private JLabel estado;
-	private JTextField idtext;
-	private JTextField nombretext;
-	private JTextField aperturatext;
-	private JTextField cierretext;
-	private JComboBox estadocombo;
-	private JButton alta;
-	private JButton busqueda;
-	private JButton atras;
-	private GridBagConstraints gbc2;
+	
+	private GridBagConstraints gbcEstaciones;
 	
 	
 	public Estaciones() {
-		this.gbc2 = new GridBagConstraints();
+		this.gbcEstaciones = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 	}
 	
@@ -37,12 +32,12 @@ public class Estaciones extends JFrame{
 	public void armarBoton(App app) {
 		JButton estaciones = new JButton("Estaciones");
 		JPanel panel = new JPanel(new GridBagLayout());
-		gbc2.gridx = 0;
-		gbc2.gridy = 0;
-		panel.add(estaciones, gbc2);
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 0;
+		panel.add(estaciones, gbcEstaciones);
 		
 		estaciones.addActionListener(e -> {
-		this.armarVentana(app);
+		this.armarVentanaEstaciones(app);
 		this.revalidate();
 		this.repaint();
 		});
@@ -52,98 +47,214 @@ public class Estaciones extends JFrame{
 		app.repaint();
 	}
 	
-	public void armarVentana(App app) {
+	 
+	public void armarVentanaEstaciones(App app) {
+		
 		JPanel panel = new JPanel(new GridBagLayout());
 		panel.setBackground(Color.LIGHT_GRAY);
-		this.id = new JLabel("Id");
-		this.nombre = new JLabel("Nombre");
-		this.apertura = new JLabel("Horario de Apertura");
-		this.cierre = new JLabel("Horario de Cierre");
-		this.estado = new JLabel("Estado");
-		this.idtext = new JTextField(2);
-		this.nombretext = new JTextField(20);
-		this.aperturatext = new JTextField(10);
-		this.cierretext = new JTextField(10);
-		this.estadocombo = new JComboBox();
-		this.estadocombo.addItem("Ativa");
-		this.estadocombo.addItem("Mantenimiento");
-		this.alta = new JButton("Dar de Alta");
-		this.busqueda = new JButton("Buscar");
-		this.atras = new JButton("Atras");
+		JLabel id = new JLabel("Id");
+		JLabel nombre = new JLabel("Nombre");
+		JLabel apertura = new JLabel("Horario de Apertura");
+		JLabel cierre = new JLabel("Horario de Cierre");
+		JLabel estado = new JLabel("Estado");
+		JTextField idtexto = new JTextField(2);
+		JTextField nombretexto = new JTextField(20);
+		JTextField aperturatexto = new JTextField(10);
+		JTextField cierretexto = new JTextField(10);
+		JComboBox<EstadoEstacion> estadocombo = new JComboBox();
+		estadocombo.addItem(EstadoEstacion.Activa);
+		estadocombo.addItem(EstadoEstacion.Mantenimiento);
+		JButton alta = new JButton("Dar de Alta");
+		JButton busqueda = new JButton("Buscar");
+		JButton atras = new JButton("Atras");
+		
+		//JLabel error = new JLabel("Datos faltantes o fuera de rango");
+		//JButton aceptar = new JButton("Aceptar");
 		
 		
 		atras.addActionListener(e -> {
 			this.armarBoton(app);
-			//this.revalidate();
-			//this.repaint();
+			this.revalidate();
+			this.repaint();
 		});
 		
-		gbc2.anchor = GridBagConstraints.WEST;
-		gbc2.gridx = 0;
-		gbc2.gridy = 0;
-		gbc2.ipadx = 10;
-		panel.add(id, gbc2);
-		gbc2.ipadx = 0;
+
+		alta.addActionListener(e -> {
+			if(!idtexto.getText().isEmpty() && !nombretexto.getText().isEmpty() 
+			&& !apertura.getText().isEmpty() && !cierretexto.getText().isEmpty()){
+				
+				/*gbcEstaciones.anchor = GridBagConstraints.CENTER;
+				gbcEstaciones.gridwidth = 2;
+				gbcEstaciones.gridx = 0;
+				gbcEstaciones.gridy = 6;
+				panel.add(error, gbcEstaciones);
+				gbcEstaciones.gridx = 0;
+				gbcEstaciones.gridy = 7;
+				panel.add(aceptar, gbcEstaciones);*/
+				
+				this.armarBoton(app);
+				this.revalidate();
+				this.repaint();
+			}
+		});
 		
-		gbc2.gridx = 1;
-		gbc2.gridy = 0;
-		panel.add(idtext, gbc2);
+		busqueda.addActionListener(e -> {
+			this.armarBusqueda(app);
+			this.revalidate();
+			this.repaint();
+		});
 		
-		gbc2.gridx = 0;
-		gbc2.gridy = 1;
-		gbc2.ipadx = 10;
-		panel.add(nombre, gbc2);
-		gbc2.ipadx = 0;
+		gbcEstaciones.anchor = GridBagConstraints.WEST;
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 0;
+		gbcEstaciones.ipadx = 10;
+		panel.add(id, gbcEstaciones);
+		gbcEstaciones.ipadx = 0;
 		
-		gbc2.gridx = 1;
-		gbc2.gridy = 1;
-		panel.add(nombretext, gbc2);
+		gbcEstaciones.gridx = 1;
+		gbcEstaciones.gridy = 0;
+		panel.add(idtexto, gbcEstaciones);
 		
-		gbc2.gridx = 0;
-		gbc2.gridy = 2;
-		gbc2.ipadx = 10;
-		panel.add(apertura, gbc2);
-		gbc2.ipadx = 0;
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 1;
+		gbcEstaciones.ipadx = 10;
+		panel.add(nombre, gbcEstaciones);
+		gbcEstaciones.ipadx = 0;
 		
-		gbc2.gridx = 1;
-		gbc2.gridy = 2;
-		panel.add(aperturatext, gbc2);
+		gbcEstaciones.gridx = 1;
+		gbcEstaciones.gridy = 1;
+		panel.add(nombretexto, gbcEstaciones);
 		
-		gbc2.gridx = 0;
-		gbc2.gridy = 3;
-		gbc2.ipadx = 10;
-		panel.add(cierre, gbc2);
-		gbc2.ipadx = 0;
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 2;
+		gbcEstaciones.ipadx = 10;
+		panel.add(apertura, gbcEstaciones);
+		gbcEstaciones.ipadx = 0;
 		
-		gbc2.gridx = 1;
-		gbc2.gridy = 3;
-		panel.add(cierretext, gbc2);
+		gbcEstaciones.gridx = 1;
+		gbcEstaciones.gridy = 2;
+		panel.add(aperturatexto, gbcEstaciones);
+		
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 3;
+		gbcEstaciones.ipadx = 10;
+		panel.add(cierre, gbcEstaciones);
+		gbcEstaciones.ipadx = 0;
+		
+		gbcEstaciones.gridx = 1;
+		gbcEstaciones.gridy = 3;
+		panel.add(cierretexto, gbcEstaciones);
 		
 
-		gbc2.gridx = 0;
-		gbc2.gridy = 4;
-		gbc2.ipadx = 10;
-		panel.add(estado, gbc2);
-		gbc2.ipadx = 0;
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 4;
+		gbcEstaciones.ipadx = 10;
+		panel.add(estado, gbcEstaciones);
+		gbcEstaciones.ipadx = 0;
 		
-		gbc2.gridx = 1;
-		gbc2.gridy = 4;
-		panel.add(estadocombo,gbc2);
+		gbcEstaciones.gridx = 1;
+		gbcEstaciones.gridy = 4;
+		panel.add(estadocombo, gbcEstaciones);
 		
-		gbc2.anchor = GridBagConstraints.WEST;
-		gbc2.gridx = 0;
-		gbc2.gridy = 5;
-		panel.add(atras, gbc2);
+		gbcEstaciones.anchor = GridBagConstraints.WEST;
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 5;
+		panel.add(atras, gbcEstaciones);
 		
-		gbc2.anchor = GridBagConstraints.EAST;
-		gbc2.gridx = 1;
-		gbc2.gridy = 5;
-		panel.add(alta, gbc2);
+		gbcEstaciones.anchor = GridBagConstraints.EAST;
+		gbcEstaciones.gridx = 1;
+		gbcEstaciones.gridy = 5;
+		panel.add(alta, gbcEstaciones);
 		
-		gbc2.gridx = 2;
-		gbc2.gridy = 5;
-		panel.add(busqueda, gbc2);
+		gbcEstaciones.gridx = 2;
+		gbcEstaciones.gridy = 5;
+		panel.add(busqueda, gbcEstaciones);
 		
+		
+		app.setContentPane(panel);
+		app.revalidate();
+		app.repaint();
+		
+	}
+	
+	private JTable dibujarTablaEstaciones() {
+		DefaultTableModel modelo = new DefaultTableModel();	
+		
+		modelo.addColumn("Id");
+		modelo.addColumn("Nombre");
+		modelo.addColumn("Apertura");
+		modelo.addColumn("Cierre");
+		modelo.addColumn("Estado");
+		
+		JTable tablaPlantas = new JTable(modelo);
+		
+		/*TableRowSorter<TableModel> ordenador=new TableRowSorter<TableModel>(modelo);
+		tablaPlantas.setRowSorter(ordenador);*/
+		
+		TableColumnModel modeloColumna = tablaPlantas.getColumnModel();
+		modeloColumna.getColumn(0).setPreferredWidth(20);
+		modeloColumna.getColumn(1).setPreferredWidth(240);
+		modeloColumna.getColumn(2).setPreferredWidth(240);
+		modeloColumna.getColumn(3).setPreferredWidth(240);
+		modeloColumna.getColumn(4).setPreferredWidth(240);
+		
+		/*for (int i=0 ; i<50;i++) {
+			Object fila[] = new Object[4];
+			fila[0]="Los pepitos";
+			fila[1]="Marcelino Escalada";
+			fila[2]=342123564;
+			fila[3]= new JButton("");
+			modelo.addRow(fila);
+			fila[0]="Los aaaa";
+			fila[1]="Marcelino";
+			fila[2]=342123564;
+			JButton A=new JButton();
+			A.setPreferredSize(new Dimension(2, 2));
+			fila[3]= A;
+			modelo.addRow(fila);
+			}*/
+	
+		return tablaPlantas;
+	}
+	
+	public void armarBusqueda(App app) {
+		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setBackground(Color.LIGHT_GRAY);
+		JScrollPane scrollEstaciones=new JScrollPane();
+		JButton atras = new JButton("Atras");
+		JButton editar = new JButton("Editar");
+		JButton eliminar = new JButton("Eliminar");
+		JTable tablaEstaciones = this.dibujarTablaEstaciones();
+		scrollEstaciones.setViewportView(tablaEstaciones);
+		
+	
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 0;
+		gbcEstaciones.gridwidth = 3;
+		gbcEstaciones.gridheight = 1;
+		gbcEstaciones.fill = GridBagConstraints.HORIZONTAL;
+		gbcEstaciones.weightx = 1.0;
+		panel.add(scrollEstaciones, gbcEstaciones);
+		gbcEstaciones.weightx = 0.0;
+		gbcEstaciones.gridwidth = 1;
+		gbcEstaciones.fill = GridBagConstraints.NONE;
+		
+		gbcEstaciones.weightx = 1.0;
+		gbcEstaciones.weighty = 1.0;
+		gbcEstaciones.anchor = GridBagConstraints.WEST;
+		gbcEstaciones.gridx = 0;
+		gbcEstaciones.gridy = 1;
+		panel.add(atras, gbcEstaciones);
+		
+		gbcEstaciones.anchor = GridBagConstraints.EAST;
+		gbcEstaciones.gridx = 1;
+		gbcEstaciones.gridy = 1;
+		panel.add(editar, gbcEstaciones);
+		
+		gbcEstaciones.anchor = GridBagConstraints.WEST;
+		gbcEstaciones.gridx = 2;
+		gbcEstaciones.gridy = 1;
+		panel.add(eliminar, gbcEstaciones);
 		
 		app.setContentPane(panel);
 		app.revalidate();

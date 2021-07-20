@@ -18,8 +18,8 @@ public class App extends JFrame{
 	private JLabel labelUsuario;
 	private JLabel labelContraseña;
 	private JLabel labelMostrar;
-	private JTextField textUsuario;
-	private JPasswordField textContraseña;
+	private JTextField textoUsuario;
+	private JPasswordField textoContraseña;
 	private JCheckBox habilitar;	
 	private JLabel labelIngresar;
 	private JButton ingresar;
@@ -30,13 +30,13 @@ public class App extends JFrame{
 			this.setLayout(new GridBagLayout());
 		}
 		
-		public void armarVentana() {
+		public void correrApp() {
 			this.setBackground(Color.LIGHT_GRAY);
 			this.labelUsuario = new JLabel("Usuario"); 
 			this.labelContraseña = new JLabel("Contraseña"); 
 			this.labelMostrar = new JLabel("Mostrar contraseña");
-			this.textUsuario = new JTextField(20);
-			this.textContraseña = new JPasswordField(20);
+			this.textoUsuario = new JTextField(20);
+			this.textoContraseña = new JPasswordField(20);
 			this.habilitar = new JCheckBox();
 			this.labelIngresar = new JLabel("Iniciar sesión");
 			this.ingresar = new JButton("Ingresar");
@@ -56,7 +56,7 @@ public class App extends JFrame{
 			
 			gbc.gridx = 1;
 			gbc.gridy = 1;
-			this.add(textUsuario, gbc);
+			this.add(textoUsuario, gbc);
 			
 
 			gbc.gridx = 0;
@@ -65,7 +65,7 @@ public class App extends JFrame{
 			
 			gbc.gridx = 1;
 			gbc.gridy = 2;
-			this.add(textContraseña, gbc);
+			this.add(textoContraseña, gbc);
 			
 			gbc.gridx = 2;
 			gbc.gridy = 2;
@@ -83,7 +83,7 @@ public class App extends JFrame{
 			this.add(ingresar, gbc);
 			
 			ingresar.addActionListener(e -> {
-				prin.armarVentana(this);
+				prin.armarVentanaPrincipal(this);
 				this.revalidate();
 				this.repaint();
 			});
@@ -94,8 +94,9 @@ public class App extends JFrame{
 		
 	public static void main(String[] args) {
 			App app = new App();
-			app.armarVentana();
+			app.correrApp();
 			app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			app.setTitle("Nombre app");
 			app.setSize(800,800);
 			app.setVisible(true);
 		}
