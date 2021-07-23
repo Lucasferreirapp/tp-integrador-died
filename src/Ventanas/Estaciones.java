@@ -198,21 +198,15 @@ public class Estaciones extends JFrame{
 		modeloColumna.getColumn(3).setPreferredWidth(240);
 		modeloColumna.getColumn(4).setPreferredWidth(240);
 		
-		/*for (int i=0 ; i<50;i++) {
-			Object fila[] = new Object[4];
-			fila[0]="Los pepitos";
-			fila[1]="Marcelino Escalada";
-			fila[2]=342123564;
-			fila[3]= new JButton("");
+		for (int i=0 ; i<5; i++) {
+			Object fila[] = new Object[5];
+			fila[0]=(int)(Math.random()+10+1);
+			fila[1]="Manuel Belgrano";
+			fila[2]="6:00hs";
+			fila[3]= "21:00hs";
+			fila[4] = "Al azar";
 			modelo.addRow(fila);
-			fila[0]="Los aaaa";
-			fila[1]="Marcelino";
-			fila[2]=342123564;
-			JButton A=new JButton();
-			A.setPreferredSize(new Dimension(2, 2));
-			fila[3]= A;
-			modelo.addRow(fila);
-			}*/
+			}
 	
 		return tablaPlantas;
 	}
@@ -226,7 +220,7 @@ public class Estaciones extends JFrame{
 		JButton eliminar = new JButton("Eliminar");
 		JTable tablaEstaciones = this.dibujarTablaEstaciones();
 		scrollEstaciones.setViewportView(tablaEstaciones);
-		
+
 	
 		gbcEstaciones.gridx = 0;
 		gbcEstaciones.gridy = 0;
@@ -255,6 +249,12 @@ public class Estaciones extends JFrame{
 		gbcEstaciones.gridx = 2;
 		gbcEstaciones.gridy = 1;
 		panel.add(eliminar, gbcEstaciones);
+		
+		atras.addActionListener(e -> {
+			this.armarVentanaEstaciones(app);
+			this.revalidate();
+			this.repaint();
+		});
 		
 		app.setContentPane(panel);
 		app.revalidate();

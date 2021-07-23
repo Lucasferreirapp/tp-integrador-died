@@ -83,6 +83,7 @@ public class App extends JFrame{
 			this.add(ingresar, gbc);
 			
 			ingresar.addActionListener(e -> {
+				if(!textoUsuario.getText().isEmpty() && !textoContraseña.getText().isEmpty())
 				prin.armarVentanaPrincipal(this);
 				this.revalidate();
 				this.repaint();
