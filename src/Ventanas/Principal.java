@@ -4,12 +4,9 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+
 
 public class Principal extends JFrame{
 
@@ -25,11 +22,33 @@ public class Principal extends JFrame{
 		panel.setBackground(Color.LIGHT_GRAY);
 		Estaciones estacionesPantalla = new Estaciones();
 		Lineas lineasPantalla = new Lineas();
+		Boletos boletosPantalla = new Boletos();
 		
-		estacionesPantalla.armarBoton(app);
-		//lineasPantalla.armarBoton(app);
-		this.revalidate();
-		this.repaint();
+		JButton estaciones = estacionesPantalla.armarBoton(app);
+		JButton lineas = lineasPantalla.armarBoton(app);
+		JButton boletos = boletosPantalla.armarBoton(app);
+		
+		gbcPrincipal.anchor = GridBagConstraints.SOUTHWEST;
+		gbcPrincipal.gridx = 0;
+		gbcPrincipal.gridy = 0;
+		gbcPrincipal.weighty = 1.0;
+		panel.add(estaciones, gbcPrincipal);
+		
+		gbcPrincipal.anchor = GridBagConstraints.WEST;
+		gbcPrincipal.gridx = 0;
+		gbcPrincipal.gridy = 1;
+		gbcPrincipal.weighty = 1.0;
+		panel.add(lineas, gbcPrincipal);
+		
+		gbcPrincipal.anchor = GridBagConstraints.NORTHWEST;
+		gbcPrincipal.gridx = 0;
+		gbcPrincipal.gridy = 2;
+		gbcPrincipal.weighty = 1.0;
+		panel.add(boletos, gbcPrincipal);
+		
+		app.setContentPane(panel);
+		app.revalidate();
+		app.repaint();
 	}
 	
 	/*public void armarVentana(App app) {

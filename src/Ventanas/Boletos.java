@@ -22,7 +22,7 @@ public class Boletos extends JFrame{
 	}
 	
 	
-	public void armarBoton(App app) {
+	public JButton armarBoton(App app) {
 		JButton boletos = new JButton("Boletos");
 		JPanel panel = new JPanel(new GridBagLayout());
 		gbcBoletos.gridx = 0;
@@ -38,6 +38,8 @@ public class Boletos extends JFrame{
 		app.setContentPane(panel);
 		app.revalidate();
 		app.repaint();
+		
+		return boletos;
 	}
 	
 	/*public void armarVentanaEstaciones(App app) {

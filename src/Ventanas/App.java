@@ -8,10 +8,12 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class App extends JFrame{
+	
 	
 	private GridBagConstraints gbc;	
 		
@@ -82,23 +84,28 @@ public class App extends JFrame{
 			gbc.gridy = 3;
 			this.add(ingresar, gbc);
 			
+			JOptionPane aviso = new JOptionPane();
+			
 			ingresar.addActionListener(e -> {
-				if(!textoUsuario.getText().isEmpty() && !textoContraseña.getText().isEmpty())
+				//if(textoUsuario.getText().contentEquals("Admin") && 
+				//textoContraseña.getText().contains("Admin")) {
 				prin.armarVentanaPrincipal(this);
 				this.revalidate();
 				this.repaint();
+				//}
+				//else aviso.showMessageDialog(null, "Datos incorrectos");
 			});
 			
 		
 		}
-		
+			
 		
 	public static void main(String[] args) {
 			App app = new App();
 			app.correrApp();
 			app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			app.setTitle("Nombre app");
-			app.setSize(800,800);
+			app.setTitle("");
+			app.setSize(1280,720);
 			app.setVisible(true);
 		}
 	
