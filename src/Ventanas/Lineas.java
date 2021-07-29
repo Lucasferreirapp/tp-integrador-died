@@ -28,6 +28,7 @@ public class Lineas extends JFrame{
 	JButton eliminar = new JButton("Eliminar");
 	JButton atras = new JButton("Atras");
 	JButton aceptar = new JButton("Aceptar");
+	Integer fila =-1;
 	
 	
 	public Lineas() {
@@ -425,25 +426,27 @@ public class Lineas extends JFrame{
 			modelo.addRow(fila);
 			};
 		
-			JOptionPane aviso = new JOptionPane();
-		
+			aceptar.addActionListener(f -> { 
+				JOptionPane.showConfirmDialog(null, "Seguro que quiere cargar el trayecto seleccionado?");
+				System.out.println("hola" +fila);
+			});
+			
+			
 			ListSelectionModel seleccion = tablaTrayecto.getSelectionModel();
 			seleccion.addListSelectionListener(new ListSelectionListener() {
 			
 				public void valueChanged(ListSelectionEvent e) {
 				
+					//reiniciar cantidad de clics
 					if(e.getValueIsAdjusting()) return; 
 				
 					ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 					if(!lsm.isSelectionEmpty()) { 
-						aceptar.addActionListener(f -> { 
-							//aviso.showConfirmDialog(null, "Seguro que quiere eliminar la estacion seleccionada?");
-							System.out.println("hola");
-						});
+							fila = lsm.getSelectedIndices()[0];
+						}
 					}
-				}
 			});
-		
+			
 				atras.addActionListener(e -> {
 				this.armarEdicionLineas(app);
 				this.revalidate();

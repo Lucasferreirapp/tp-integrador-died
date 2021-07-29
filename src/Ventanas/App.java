@@ -5,7 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,14 +14,17 @@ import javax.swing.JTextField;
 public class App extends JFrame{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private GridBagConstraints gbc;	
 		
 	private JLabel labelUsuario;
 	private JLabel labelContraseña;
-	private JLabel labelMostrar;
 	private JTextField textoUsuario;
-	private JPasswordField textoContraseña;
-	private JCheckBox habilitar;	
+	private JPasswordField textoContraseña;	
 	private JLabel labelIngresar;
 	private JButton ingresar;
 	public Principal prin;
@@ -32,14 +34,13 @@ public class App extends JFrame{
 			this.setLayout(new GridBagLayout());
 		}
 		
+		@SuppressWarnings("deprecation")
 		public void correrApp() {
 			this.setBackground(Color.LIGHT_GRAY);
 			this.labelUsuario = new JLabel("Usuario"); 
 			this.labelContraseña = new JLabel("Contraseña"); 
-			this.labelMostrar = new JLabel("Mostrar contraseña");
 			this.textoUsuario = new JTextField(20);
 			this.textoContraseña = new JPasswordField(20);
-			this.habilitar = new JCheckBox();
 			this.labelIngresar = new JLabel("Iniciar sesión");
 			this.ingresar = new JButton("Ingresar");
 			Principal prin = new Principal();
@@ -69,14 +70,6 @@ public class App extends JFrame{
 			gbc.gridy = 2;
 			this.add(textoContraseña, gbc);
 			
-			gbc.gridx = 2;
-			gbc.gridy = 2;
-			gbc.ipadx = 0;
-			this.add(habilitar, gbc);
-			
-			gbc.gridx = 3;
-			gbc.gridy = 2;
-			this.add(labelMostrar, gbc);
 			
 			gbc.anchor = GridBagConstraints.CENTER;
 			gbc.gridwidth = 2;
@@ -84,16 +77,15 @@ public class App extends JFrame{
 			gbc.gridy = 3;
 			this.add(ingresar, gbc);
 			
-			JOptionPane aviso = new JOptionPane();
 			
 			ingresar.addActionListener(e -> {
 				//if(textoUsuario.getText().contentEquals("Admin") && 
-				//textoContraseña.getText().contains("Admin")) {
+				//textoContraseña.getText().contains("admin")) {
 				prin.armarVentanaPrincipal(this);
 				this.revalidate();
 				this.repaint();
 				//}
-				//else aviso.showMessageDialog(null, "Datos incorrectos");
+				//else JOptionPane.showMessageDialog(null, "Datos incorrectos");
 			});
 			
 		
@@ -104,7 +96,7 @@ public class App extends JFrame{
 			App app = new App();
 			app.correrApp();
 			app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			app.setTitle("");
+			app.setTitle("Tp-Died");
 			app.setSize(1280,720);
 			app.setVisible(true);
 		}

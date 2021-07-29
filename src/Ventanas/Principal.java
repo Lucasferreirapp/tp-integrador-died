@@ -10,6 +10,10 @@ import javax.swing.JPanel;
 
 public class Principal extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GridBagConstraints gbcPrincipal;
 	
 	public Principal() {
@@ -24,7 +28,7 @@ public class Principal extends JFrame{
 		Lineas lineasPantalla = new Lineas();
 		Boletos boletosPantalla = new Boletos();
 		
-		JButton estaciones = estacionesPantalla.armarBoton(app);
+		JButton estaciones = estacionesPantalla.armarBotonEstaciones(app);
 		JButton lineas = lineasPantalla.armarBoton(app);
 		JButton boletos = boletosPantalla.armarBoton(app);
 		

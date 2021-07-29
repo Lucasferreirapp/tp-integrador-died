@@ -1,6 +1,7 @@
 package Ventanas;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -141,4 +142,8 @@ public class Boletos extends JFrame{
 		app.repaint();
 		
 	}*/
+	
+	//public Graphics2D dibujarTrayectos() {
+		
+	//}
 }
