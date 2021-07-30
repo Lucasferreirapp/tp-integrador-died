@@ -29,8 +29,8 @@ public class Principal extends JFrame{
 		Boletos boletosPantalla = new Boletos();
 		
 		JButton estaciones = estacionesPantalla.armarBotonEstaciones(app);
-		JButton lineas = lineasPantalla.armarBoton(app);
-		JButton boletos = boletosPantalla.armarBoton(app);
+		JButton lineas = lineasPantalla.armarBotonLineas(app);
+		JButton boletos = boletosPantalla.armarBotonBoletos(app);
 		
 		gbcPrincipal.anchor = GridBagConstraints.SOUTHWEST;
 		gbcPrincipal.gridx = 0;
@@ -54,43 +54,5 @@ public class Principal extends JFrame{
 		app.revalidate();
 		app.repaint();
 	}
-	
-	/*public void armarVentana(App app) {
-		
-		JPanel panel = new JPanel(new GridBagLayout());
-		panel.setBackground(Color.LIGHT_GRAY);
-		this.estaciones = new JButton("Estaciones");
-		this.lineas = new JButton("Linea de transporte");
-		this.boletos = new JButton("Boletos");
-		Estaciones estacionesPantalla = new Estaciones();
-		
-		gbc1.weighty = 0.1;
-		gbc1.anchor = GridBagConstraints.SOUTHWEST;
-		gbc1.gridx = 0;
-		gbc1.gridy = 0;
-		panel.add(estaciones, gbc1);
-		
-		gbc1.anchor = GridBagConstraints.WEST;
-		gbc1.gridx = 0;
-		gbc1.gridy = 1;
-		panel.add(lineas, gbc1);
-		
-		gbc1.anchor = GridBagConstraints.NORTHWEST;
-		gbc1.gridx = 0;
-		gbc1.gridy = 2;
-		panel.add(boletos, gbc1);
-		
-		app.setContentPane(panel);
-		app.revalidate();
-		app.repaint();
-	
-		estaciones.addActionListener(e -> {
-			estacionesPantalla.armarVentana(app);
-			this.revalidate();
-			this.repaint();
-		});
-	
-	
-	}*/	
 	
 }

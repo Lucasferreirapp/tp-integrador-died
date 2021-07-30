@@ -10,7 +10,7 @@ public class Estacion {
 		private String nombre;
 		private String apertura;
 		private String cierre;
-		private String estado;
+		private EstadoEstacion estado;
 		
 		public Estacion() {}
 		 
@@ -19,8 +19,9 @@ public class Estacion {
 			this.nombre = nom;
 			this.apertura = ap;
 			this.cierre = cie;
-			this.estado = "Operativa";
+			this.estado = EstadoEstacion.Operativa;
 		}
+		
 		
 		public Integer getId() {
 			return id;
@@ -46,43 +47,11 @@ public class Estacion {
 		public void setCierre(String cierre) {
 			this.cierre = cierre;
 		}
-		public String getEstado() {
+		public EstadoEstacion getEstado() {
 			return estado;
 		}
-		public void setEstado(String estado) {
+		public void setEstado(EstadoEstacion estado) {
 			this.estado = estado;
 		}
-
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((id == null) ? 0 : id.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Estacion other = (Estacion) obj;
-			if (id == null) {
-				if (other.id != null)
-					return false;
-			} else if (!id.equals(other.id))
-				return false;
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return id.toString();
-		}
-		
 		
 	}

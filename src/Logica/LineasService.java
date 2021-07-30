@@ -5,20 +5,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-public class EstacionesService {
+public class LineasService {
 	
 
 	private static String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
 	private static String user = "died";
 	private static String pass = "died";
 	
-	public DefaultTableModel buscarEstaciones(DefaultTableModel modelo) {
+	public DefaultTableModel buscarLineas(DefaultTableModel modelo) {
 		
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -28,15 +25,14 @@ public class EstacionesService {
 		try {
 			Class.forName("org.postgresql.Driver");
 			conn = DriverManager.getConnection(url, user, pass);
-			pstm = conn.prepareStatement("SELECT id_estacion, nombre_estacion, apertura, cierre, estado FROM briani_ferreira_tardivo_died.estacion");
+			pstm = conn.prepareStatement("SELECT nombre_linea, color, estado, id_trayecto FROM briani_ferreira_tardivo_died.linea");
 			rs = pstm.executeQuery();
 			while(rs.next()) { 
-				Object aux[] = new Object[5];
-				aux[0] = rs.getInt("id_estacion");
-				aux[1] = rs.getString("nombre_estacion");
-				aux[2] = rs.getString("apertura");
-				aux[3] = rs.getString("cierre");
-				aux[4] = rs.getString("estado");
+				Object aux[] = new Object[4];
+				aux[0] = rs.getString("nombre_linea");
+				aux[1] = rs.getString("color");
+				aux[2] = rs.getString("estado");
+				aux[3] = rs.getInt("id_trayecto");
 				modelo.addRow(aux);
 			}
 		} catch (ClassNotFoundException e) {
@@ -57,7 +53,7 @@ public class EstacionesService {
 			return modelo;
 	}
 	
-	public void darDeAltaEstacion(Integer id, String nombre, String apertura, String cierre, String estado) throws SQLException {
+	public void darDeAltaLinea(String nombre, String color, String estado, Integer trayecto) throws SQLException {
 		
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -65,64 +61,11 @@ public class EstacionesService {
 		try {
 			Class.forName("org.postgresql.Driver");
 			conn = DriverManager.getConnection(url, user, pass);
-			pstm = conn.prepareStatement("INSERT INTO briani_ferreira_tardivo_died.estacion (id_estacion, nombre_estacion, apertura, cierre, estado) VALUES (?, ?, ?, ?, ?)");
-			pstm.setInt(1, id);
-			pstm.setString(2, nombre);
-			pstm.setString(3, apertura);
-			pstm.setString(4, cierre);
-			pstm.setString(5, estado);
-			pstm.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		finally {
-			if(pstm != null) try { pstm.close(); }
-							catch (SQLException e) { e.printStackTrace(); }
-			if(conn != null) try { conn.close(); }
-			catch (SQLException e) { e.printStackTrace(); }
-		}
-	}
-	
-	public void eliminarEstacion(Integer est) throws SQLException {
-		
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection(url, user, pass);
-			pstm = conn.prepareStatement("DELETE FROM briani_ferreira_tardivo_died.estacion WHERE id_estacion = ?");
-			pstm.setInt(1, est);
-			pstm.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		finally {
-			if(pstm != null) try { pstm.close(); }
-							catch (SQLException e) { e.printStackTrace(); }
-			if(conn != null) try { conn.close(); }
-			catch (SQLException e) { e.printStackTrace(); }
-		}
-	}
-	
-	public void editarEstacion(Integer id, String nombre, String apertura, String cierre, String estado) throws SQLException {
-		
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection(url, user, pass);
-			pstm = conn.prepareStatement("UPDATE briani_ferreira_tardivo_died.estacion SET nombre_estacion = ?, apertura = ?, cierre = ?, estado = ? WHERE id_estacion = ?");
+			pstm = conn.prepareStatement("INSERT INTO briani_ferreira_tardivo_died.linea (nombre_linea, color, estado, id_trayecto) VALUES (?, ?, ?, ?)");
 			pstm.setString(1, nombre);
-			pstm.setString(2, apertura);
-			pstm.setString(3, cierre);
-			pstm.setString(4, estado);
-			pstm.setInt(5, id);
+			pstm.setString(2, color);
+			pstm.setString(3, estado);
+			pstm.setInt(4, trayecto);
 			pstm.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -137,38 +80,55 @@ public class EstacionesService {
 		}
 	}
 	
-	public List<Integer> estacionesId(){
+	public void eliminarLinea(String lin) throws SQLException {
 		
-		List<Integer> estaciones = new ArrayList<Integer>();
 		Connection conn = null;
 		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
 			conn = DriverManager.getConnection(url, user, pass);
-			pstm = conn.prepareStatement("SELECT id_estacion FROM briani_ferreira_tardivo_died.estacion WHERE estado = ?");
-			pstm.setString(1, "Operativa");
-			rs = pstm.executeQuery();
-			while(rs.next()) { 
-				estaciones.add(rs.getInt("id_estacion"));
-			}
+			pstm = conn.prepareStatement("DELETE FROM briani_ferreira_tardivo_died.linea WHERE nombre_linea = ?");
+			pstm.setString(1, lin);
+			pstm.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		finally {
-			
-			if(rs != null) try { rs.close(); }
-							catch (SQLException e) { e.printStackTrace(); }
 			if(pstm != null) try { pstm.close(); }
 							catch (SQLException e) { e.printStackTrace(); }
 			if(conn != null) try { conn.close(); }
-							catch (SQLException e) { e.printStackTrace(); }
+			catch (SQLException e) { e.printStackTrace(); }
 		}
-			
-		Collections.sort(estaciones);
-			return estaciones;
 	}
+	
+	public void editarLinea(String nombre, String color, String estado, Integer trayecto) throws SQLException {
+		
+		Connection conn = null;
+		PreparedStatement pstm = null;
+
+		try {
+			Class.forName("org.postgresql.Driver");
+			conn = DriverManager.getConnection(url, user, pass);
+			pstm = conn.prepareStatement("UPDATE briani_ferreira_tardivo_died.linea SET color = ?, estado = ?, id_trayecto = ? WHERE nombre_linea = ?");
+			pstm.setString(1, color);
+			pstm.setString(2, estado);
+			pstm.setInt(3, trayecto);
+			pstm.setString(4, nombre);
+			pstm.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			if(pstm != null) try { pstm.close(); }
+							catch (SQLException e) { e.printStackTrace(); }
+			if(conn != null) try { conn.close(); }
+			catch (SQLException e) { e.printStackTrace(); }
+		}
+	}
+	
 }

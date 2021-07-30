@@ -69,8 +69,7 @@ public class App extends JFrame{
 			gbc.gridx = 1;
 			gbc.gridy = 2;
 			this.add(textoContraseña, gbc);
-			
-			
+				
 			gbc.anchor = GridBagConstraints.CENTER;
 			gbc.gridwidth = 2;
 			gbc.gridx = 0;
@@ -79,13 +78,13 @@ public class App extends JFrame{
 			
 			
 			ingresar.addActionListener(e -> {
-				//if(textoUsuario.getText().contentEquals("Admin") && 
-				//textoContraseña.getText().contains("admin")) {
+				if(textoUsuario.getText().contentEquals("Admin") && 
+				textoContraseña.getText().contains("admin")) {
 				prin.armarVentanaPrincipal(this);
 				this.revalidate();
 				this.repaint();
-				//}
-				//else JOptionPane.showMessageDialog(null, "Datos incorrectos");
+				}
+				else JOptionPane.showMessageDialog(null, "Datos incorrectos");
 			});
 			
 		
@@ -103,6 +102,6 @@ public class App extends JFrame{
 	
 }
 		
-		
+	
 	
 

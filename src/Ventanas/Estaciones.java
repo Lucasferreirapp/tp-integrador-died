@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ import javax.swing.table.TableColumnModel;
 
 import Dominio.Estacion;
 import Logica.EstacionesService;
+import Logica.MantenimientoService;
 
 
 public class Estaciones extends JFrame{
@@ -39,6 +41,7 @@ public class Estaciones extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints gbcEstaciones;
 	EstacionesService es = new EstacionesService();
+	MantenimientoService ms = new MantenimientoService();
 	Integer valor = -1;
 	String nom = null;
 	String ap = null;
@@ -72,7 +75,7 @@ public class Estaciones extends JFrame{
 		return estaciones;
 	}
 	 
-	public void armarVentanaEstaciones(App app) {
+	public void armarNuevaEstacion(App app) {
 		
 		JPanel panel = new JPanel(new GridBagLayout());
 		panel.setBackground(Color.LIGHT_GRAY);
@@ -106,21 +109,21 @@ public class Estaciones extends JFrame{
 				try {
 					es.darDeAltaEstacion(Integer.parseInt(idtexto.getText()), nombretexto.getText(), aperturatexto.getText(), cierretexto.getText(), "Operativa");
 					JOptionPane.showMessageDialog(null, "Estacion cargada correctamente");
-					prin.armarVentanaPrincipal(app);
+					this.armarBusquedaEstaciones(app);
 					this.revalidate();
 					this.repaint();
 				} catch (NumberFormatException | SQLException e1) {
 					// TODO Auto-generated catch block
 					//e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Datos faltantes o fuera de rango");
-					this.armarVentanaEstaciones(app);
+					this.armarNuevaEstacion(app);
 					this.revalidate();
 					this.repaint();
 				}
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Datos faltantes o fuera de rango");
-				this.armarVentanaEstaciones(app);
+				this.armarNuevaEstacion(app);
 				this.revalidate();
 				this.repaint();
 			}
@@ -168,7 +171,6 @@ public class Estaciones extends JFrame{
 		gbcEstaciones.gridy = 3;
 		panel.add(cierretexto, gbcEstaciones);
 		
-
 		gbcEstaciones.gridx = 0;
 		gbcEstaciones.gridy = 4;
 		gbcEstaciones.ipadx = 10;
@@ -299,7 +301,7 @@ public class Estaciones extends JFrame{
 		});
 		
 		alta.addActionListener(e -> {
-			this.armarVentanaEstaciones(app);
+			this.armarNuevaEstacion(app);
 			this.revalidate();
 			this.repaint();
 		});
@@ -307,8 +309,9 @@ public class Estaciones extends JFrame{
 		eliminar.addActionListener(f -> { 
 			//aviso.showConfirmDialog(null, "Seguro que quiere eliminar la estacion seleccionada?");
 			try {
+				ms.eliminarMantenimiento(valor);
 				es.eliminarEstacion(valor);
-				prin.armarVentanaPrincipal(app);
+				this.armarBusquedaEstaciones(app);
 				this.revalidate();
 				this.repaint();
 			} catch (SQLException e1) {
@@ -478,13 +481,14 @@ public class Estaciones extends JFrame{
 			this.repaint();
 		});
 		
-		
+	
 		aceptar.addActionListener(e -> {
 			if(!idtexto.getText().isEmpty() && !iniciotexto.getText().isEmpty() 
 			&& !fintexto.getText().isEmpty() && !obstexto.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Estacion editada correctamente");
 				try {
 					es.editarEstacion(valor, nom, ap, cie, est);
+					ms.darDeAltaMantenimiento(Integer.parseInt(idtexto.getText()), iniciotexto.getText(), fintexto.getText(), obstexto.getText(), valor);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
