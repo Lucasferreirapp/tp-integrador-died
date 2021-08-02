@@ -17,12 +17,14 @@ import javax.swing.JTextField;
 
 import Logica.BoletosService;
 import Logica.EstacionesService;
+import Logica.TrayectoService;
 
 public class Boletos extends JFrame{
 
 	private GridBagConstraints gbcBoletos;
 	EstacionesService es = new EstacionesService();
 	BoletosService bs = new BoletosService();
+	TrayectoService ty = new TrayectoService();
 	
 	
 	public Boletos() {
@@ -74,9 +76,7 @@ public class Boletos extends JFrame{
 		
 		JButton siguiente = new JButton("Siguiente");
 		JButton atras = new JButton("Atras");
-		
-		//Grafico g = new Grafico();
-		//g.Dibu
+		//JButton grafico = new JButton("Mostrar trayectos");
 		
 		Principal prin = new Principal();
 		
@@ -91,6 +91,13 @@ public class Boletos extends JFrame{
 			this.revalidate();
 			this.repaint();
 		});
+		
+		/*grafico.addActionListener(e -> {
+			this.dibujar(app);
+			this.revalidate();
+			this.repaint();
+		});*/
+		
 		
 		gbcBoletos.gridx = 0;
 		gbcBoletos.gridy = 0;
@@ -122,21 +129,18 @@ public class Boletos extends JFrame{
 		gbcBoletos.gridy = 2;
 		panel.add(caminocombo, gbcBoletos);
 		
-		//gbcBoletos.weightx = 1.0;
-		gbcBoletos.anchor = GridBagConstraints.WEST;
 		gbcBoletos.gridx = 0;
 		gbcBoletos.gridy = 3;
 		panel.add(atras, gbcBoletos);
 		
-		gbcBoletos.anchor = GridBagConstraints.EAST;
-		gbcBoletos.gridx = 1;
+		/*gbcBoletos.gridx = 1;
+		gbcBoletos.gridy = 3;
+		panel.add(grafico, gbcBoletos);*/
+		
+		gbcBoletos.gridx = 2;
 		gbcBoletos.gridy = 3;
 		panel.add(siguiente, gbcBoletos);
 		gbcBoletos.weightx = 1.0;
-		
-		//gbcBoletos.gridx = 0;
-		//gbcBoletos.gridy = 4;
-		//panel.add(graf.paintComponents(getGraphics()))
 		
 		
 		app.setContentPane(panel);
@@ -163,11 +167,17 @@ public class Boletos extends JFrame{
 		JTextField correotexto = new JTextField(20);
 		JTextField origentexto = new JTextField(5);
 		JTextField destinotexto = new JTextField(5);
-		JTextField trayectotexto = new JTextField(5);
+		JComboBox<Integer> trayectocombo = new JComboBox<Integer>();
+		
+		for(int i=0; i<ty.trayectosId().size(); i++) {
+			if(ty.trayectosId().get(i) != 0) trayectocombo.addItem(ty.trayectosId().get(i));
+		}
+		
 		JTextField costotexto = new JTextField(20);
 		JButton atras = new JButton("Atras");
 		JButton aceptar = new JButton("Aceptar");
 		
+	
 		origentexto.setText(ori.toString());
 		origentexto.setEnabled(false);
 		destinotexto.setText(des.toString());
@@ -183,10 +193,10 @@ public class Boletos extends JFrame{
 		
 		aceptar.addActionListener(e -> {
 			if(!boletotexto.getText().isEmpty() && !fechatexto.getText().isEmpty() && !nombretexto.getText().isEmpty() && !correotexto.getText().isEmpty()
-					&& !trayectotexto.getText().isEmpty() && !costotexto.getText().isEmpty()) {
+					&& !trayectocombo.getSelectedItem().toString().isEmpty() && !costotexto.getText().isEmpty()) {
 				
 					try {
-						bs.nuevoBoleto(Integer.parseInt(boletotexto.getText()), fechatexto.getText(), nombretexto.getText(), correotexto.getText(), ori, des, Integer.parseInt(trayectotexto.getText()), Double.parseDouble(costotexto.getText()));
+						bs.nuevoBoleto(Integer.parseInt(boletotexto.getText()), fechatexto.getText(), nombretexto.getText(), correotexto.getText(), ori, des, Integer.parseInt(trayectocombo.getSelectedItem().toString()), Double.parseDouble(costotexto.getText()));
 					} catch (NumberFormatException | SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -287,7 +297,7 @@ public class Boletos extends JFrame{
 		gbcBoletos.anchor = GridBagConstraints.WEST;
 		gbcBoletos.gridx = 1;
 		gbcBoletos.gridy = 3;
-		panel.add(trayectotexto, gbcBoletos);
+		panel.add(trayectocombo, gbcBoletos);
 		
 		gbcBoletos.anchor = GridBagConstraints.EAST;
 		gbcBoletos.gridx = 2;
@@ -318,4 +328,11 @@ public class Boletos extends JFrame{
 		app.repaint();
 	}
 
+	public void dibujar(App app) {
+		JFrame ventana = new JFrame("Figuras");
+		ventana.setBounds(0, 0, 1000, 800);
+		ventana.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		ventana.setContentPane(new Grafico());
+		ventana.setVisible(true);
+	}
 }
